@@ -38,6 +38,7 @@ namespace NStore
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(309, 23);
             this.progressBar1.TabIndex = 0;
+            this.progressBar1.UseWaitCursor = true;
             // 
             // ProgressBar
             // 
@@ -46,8 +47,12 @@ namespace NStore
             this.ClientSize = new System.Drawing.Size(333, 50);
             this.Controls.Add(this.progressBar1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ProgressBar";
+            this.ShowInTaskbar = false;
             this.Text = "작업진행중";
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.ProgressBar_Load);
             this.ResumeLayout(false);
 

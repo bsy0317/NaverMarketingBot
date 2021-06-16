@@ -16,6 +16,7 @@ namespace NStore
     public partial class Main : Form
     {
         public static string[] userData;
+        IP ipfrm;
         public Main(string[] userDataA)
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace NStore
         {
             if(userData[1] == "IP" || userData[1] == "SEARCH")
             {
-                IP ipfrm = new IP(userData);
+                ipfrm = new IP(userData);
                 ipfrm.TopLevel = false;
                 ipfrm.MdiParent = this;
                 ipfrm.Show();
@@ -67,7 +68,29 @@ namespace NStore
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            initialzedAdapter(true,true);
+            this.Hide();
+            ProgressBar pb = new ProgressBar();
+            ipfrm.Close();
+            pb.TopMost = true;
+            pb.StartPosition = FormStartPosition.CenterScreen;
+            pb.progressBar1.Visible = false;
+            pb.Controls.Remove(pb.progressBar1);
+
+            Label lb1 = new Label();
+            lb1.BackColor = Color.White;
+            lb1.ForeColor = Color.Red;
+            lb1.Text = "잠시만 기다려주세요.";
+            lb1.Name = "Notice";
+            lb1.Font = new Font("맑은 고딕", 10,FontStyle.Bold);
+            lb1.Location = new Point(12, 12);
+            lb1.Size = new Size(309,23);
+            lb1.TextAlign = ContentAlignment.MiddleCenter;
+            pb.Controls.Add(lb1);
+
+            pb.Show();
+            pb.Refresh();
+            initialzedAdapter(true, true);
+            pb.Close();
             Environment.Exit(0);
         }
 
