@@ -22,6 +22,8 @@ namespace NStore
         ProgressBar pb;
         public static string[] userData;
         private static bool autoOn = false;
+        bool timeLoop_Status = false;
+        Thread timeLoop;
         public IP(string[] userDataA)
         {
             userData = userDataA;
@@ -124,6 +126,33 @@ namespace NStore
             });
             t3.Start();
         }
+        private void timeChangeIP()
+        {
+            try
+            {
+                timeLoop_Status = true;
+                timeLoop = new Thread(delegate ()
+                {
+                    while (timeLoop_Status)
+                    {
+                        for (int i = (int)changetime.Value; i > 0; i--)
+                        {
+                            logBox.AppendText("[Time] " + i.ToString() + "분 후 IP가 변경됩니다.\n", Color.Red);
+                            Thread.Sleep(1000 * 60);
+                            if (!timeLoop_Status)
+                            {
+                                logBox.AppendText("[Alert] IP 자동변경 중지 완료.\n", Color.Red);
+                                break;
+                            }
+                        }
+                        if(timeLoop_Status) ipChange();
+                    }
+                });
+                timeLoop.IsBackground = true;
+                timeLoop.Start();
+            }
+            catch{  }
+        }
         private void binaryDownload()
         {
             //Last SDK Update Link
@@ -196,6 +225,7 @@ namespace NStore
             autoOn = true;
             btn_on.Enabled = false;
             btn_off.Enabled = true;
+            timeChangeIP();
         }
 
         private void btn_off_Click(object sender, EventArgs e)
@@ -203,6 +233,8 @@ namespace NStore
             autoOn = false;
             btn_on.Enabled = true;
             btn_off.Enabled = false;
+            logBox.AppendText("[Alert] IP 자동변경 중지 요청 전송.\n", Color.Red);
+            timeLoop_Status = false; //Loop 순환 종료
         }
 
         private void button1_Click(object sender, EventArgs e)
