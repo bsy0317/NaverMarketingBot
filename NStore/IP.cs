@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinHttp;
 
 namespace NStore
 {
@@ -46,33 +47,39 @@ namespace NStore
                 Thread th = new Thread(binaryDownload);
                 th.Start();
             }
-            initialzedAdapter(false);
-            logBox.AppendText("[OK] 테더링 어뎁터를 제외한 네트워크 사용을 중지했습니다.\n",Color.Green);
+            else
+            {
+                //ADB 바이너리가 있는경우에만 어댑터 비활성화
+                initialzedAdapter(false);
+            }
         }
         private void initialzedAdapter(bool Enable=false)
         {
             Thread t3 = new Thread(delegate () {
+                logBox.AppendText("[Wait] 서비스 실행 시작중...\n", Color.DarkOrange);
                 SelectQuery wmiQuery = new SelectQuery("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionId != NULL");
                 ManagementObjectSearcher searchProcedure = new ManagementObjectSearcher(wmiQuery);
                 foreach (ManagementObject item in searchProcedure.Get())
                 {
-                    if (((string)item["Name"]) != "Remote NDIS based Internet Sharing Device")
+                    if (((string)item["Name"]).IndexOf("Remote NDIS") == -1)
                     {
-                        Debug.WriteLine("비활성 > "+(string)item["Name"]);
+                        Debug.WriteLine("비활성 > " + (string)item["Name"]);
                         if (Enable == true)
                         {
                             item.InvokeMethod("Enable", null);
-                        }else if(Enable == false)
+                        }
+                        else if (Enable == false)
                         {
                             item.InvokeMethod("Disable", null);
                         }
                     }
-                    else if (((string)item["Name"]) == "Remote NDIS based Internet Sharing Device")
+                    else if (((string)item["Name"]).IndexOf("Remote NDIS") != -1)
                     {
                         Debug.WriteLine("활성 > " + (string)item["Name"]);
                         item.InvokeMethod("Enable", null);
                     }
                 }
+                logBox.AppendText("[OK] 테더링 네트워크를 제외한 다른 네트워크 사용을 중지했습니다.\n", Color.Green);
             });
             t3.Start();
         }
@@ -80,10 +87,12 @@ namespace NStore
         {
             Thread t3 = new Thread(delegate ()
             {
-                WebClient wc = new WebClient();
-                string prevIP = wc.DownloadString("https://api.ipify.org");
-                wc.Dispose();
-                logBox.AppendText("[Wait] 새로운 IP주소를 받아옵니다.\n",Color.Green);
+                logBox.AppendText("[Wait] 새로운 IP주소를 받아옵니다.\n", Color.Green);
+                string ipAPI = "http://auth.krr.kr/getIP.php";
+                WinHttpRequest wt = new WinHttpRequest();
+                wt.Open("GET", ipAPI);
+                wt.Send();
+                string prevIP = wt.ResponseText;
                 ProcessStartInfo proc_info = new ProcessStartInfo();
                 Process proc = new Process();
                 proc_info.FileName = Environment.CurrentDirectory + @"\adb\adb.exe";
@@ -106,9 +115,9 @@ namespace NStore
                     proc.Close();
                 }
                 logBox.AppendText("[Wait] IP정보 갱신대기중.\n", Color.DarkOrange);
-                Thread.Sleep(5000);
-                wc = new WebClient();
-                string newIP = wc.DownloadString("https://api.ipify.org");
+                Thread.Sleep(1000);
+                wt.Send();
+                string newIP = wt.ResponseText;
                 label_prevIP.Text = prevIP;
                 label_nowIP.Text = newIP;
                 logBox.AppendText("[OK] IP정보 갱신완료.\n", Color.Green);
@@ -126,18 +135,19 @@ namespace NStore
         }
         private void DownloadFileCallback2(object sender, AsyncCompletedEventArgs e)
         {
-            ZipFile.ExtractToDirectory(Environment.CurrentDirectory + @"\platform-tools-latest-windows.zip", Environment.CurrentDirectory);
-            Directory.Move(Environment.CurrentDirectory+ @"\platform-tools", Environment.CurrentDirectory + @"\adb");
-            File.Delete(Environment.CurrentDirectory + @"\platform-tools-latest-windows.zip");
-            logBox.AppendText("[OK] ADB Binary 다운로드를 완료했습니다.\n",Color.Green);
-            if (e.Cancelled)
+            try
             {
-                Console.WriteLine("File download cancelled.");
+                ZipFile.ExtractToDirectory(Environment.CurrentDirectory + @"\platform-tools-latest-windows.zip", Environment.CurrentDirectory);
+                Directory.Move(Environment.CurrentDirectory + @"\platform-tools", Environment.CurrentDirectory + @"\adb");
+                File.Delete(Environment.CurrentDirectory + @"\platform-tools-latest-windows.zip");
+                logBox.AppendText("[OK] ADB Binary 다운로드를 완료했습니다.\n", Color.Green);
+                initialzedAdapter(false);
             }
-
-            if (e.Error != null)
+            catch(Exception ex)
             {
-                Console.WriteLine(e.Error.ToString());
+                MessageBox.Show("ADB Binary 다운로드에 실패하였습니다.\n프로그램을 재시작 해 주세요.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Clipboard.SetText(ex.Message);
+                Environment.Exit(-1);
             }
         }
         void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -202,12 +212,15 @@ namespace NStore
     }
     public static class RichTextBoxExtensions{
         public static void AppendText(this RichTextBox box, string text, Color color){
+            text = "["+DateTime.Now.ToString("T")+"] " + text;
             box.SelectionStart = box.TextLength;
             box.SelectionLength = 0;
 
             box.SelectionColor = color;
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;
+
+            box.ScrollToCaret(); //Auto Scroll
         }
     }
 }

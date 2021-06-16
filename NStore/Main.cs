@@ -48,9 +48,9 @@ namespace NStore
                 ManagementObjectSearcher searchProcedure = new ManagementObjectSearcher(wmiQuery);
                 foreach (ManagementObject item in searchProcedure.Get())
                 {
-                    if (((string)item["Name"]) != "Remote NDIS based Internet Sharing Device")
+                    if (((string)item["Name"]).IndexOf("Remote NDIS") == -1)
                     {
-                        Debug.WriteLine("활성 > " + (string)item["Name"]);
+                        Debug.WriteLine("비활성 > " + (string)item["Name"]);
                         if (Enable == true)
                         {
                             item.InvokeMethod("Enable", null);
@@ -59,6 +59,11 @@ namespace NStore
                         {
                             item.InvokeMethod("Disable", null);
                         }
+                    }
+                    else if (((string)item["Name"]).IndexOf("Remote NDIS") != -1)
+                    {
+                        Debug.WriteLine("활성 > " + (string)item["Name"]);
+                        item.InvokeMethod("Enable", null);
                     }
                 }
             });
@@ -77,13 +82,13 @@ namespace NStore
             pb.Controls.Remove(pb.progressBar1);
 
             Label lb1 = new Label();
-            lb1.BackColor = Color.White;
+            lb1.BackColor = this.BackColor;
             lb1.ForeColor = Color.Red;
             lb1.Text = "잠시만 기다려주세요.";
             lb1.Name = "Notice";
             lb1.Font = new Font("맑은 고딕", 10,FontStyle.Bold);
             lb1.Location = new Point(12, 12);
-            lb1.Size = new Size(309,23);
+            lb1.AutoSize = true;
             lb1.TextAlign = ContentAlignment.MiddleCenter;
             pb.Controls.Add(lb1);
 
