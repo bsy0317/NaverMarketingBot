@@ -17,6 +17,7 @@ namespace NStore
     {
         public static string[] userData;
         IP ipfrm;
+        Search search_form;
         public Main(string[] userDataA)
         {
             InitializeComponent();
@@ -25,16 +26,21 @@ namespace NStore
 
         private void Main_Load(object sender, EventArgs e)
         {
-            if(userData[1] == "IP" || userData[1] == "SEARCH")
+            if(userData[1] == "IP" || userData[1] == "SEARCH") //요금제가 IP 또는 Search 인 경우
             {
-                ipfrm = new IP(userData);
+                ipfrm = new IP(userData); //IP폼 호출
                 ipfrm.TopLevel = false;
                 ipfrm.MdiParent = this;
                 ipfrm.Show();
             }
-            if(userData[1] == "SEARCH")
+            if(userData[1] == "SEARCH") //Search인 경우
             {
-
+                search_form = new Search(userData); //Search폼 호출
+                search_form.TopLevel = false;
+                search_form.MdiParent = this;
+                search_form.StartPosition = FormStartPosition.Manual;
+                search_form.Location = new Point(ipfrm.Location.X+ipfrm.Size.Width+10,ipfrm.Location.Y);
+                search_form.Show();
             }
             else if(userData[1] == "NONE")
             {
@@ -50,7 +56,7 @@ namespace NStore
                 {
                     if (((string)item["Name"]).IndexOf("Remote NDIS") == -1)
                     {
-                        Debug.WriteLine("비활성 > " + (string)item["Name"]);
+                        Debug.WriteLine("활성 > " + (string)item["Name"]);
                         if (Enable == true)
                         {
                             item.InvokeMethod("Enable", null);
@@ -75,7 +81,8 @@ namespace NStore
         {
             this.Hide();
             ProgressBar pb = new ProgressBar();
-            ipfrm.Close();
+            if (search_form != null) search_form.Close();
+            if (ipfrm != null) ipfrm.Close();
             pb.TopMost = true;
             pb.StartPosition = FormStartPosition.CenterScreen;
             pb.progressBar1.Visible = false;

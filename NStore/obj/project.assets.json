@@ -1503,19 +1503,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\WestKite\\.nuget\\packages\\": {}
+    "C:\\Users\\pc\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\WestKite\\source\\repos\\NStore\\NStore\\NStore.csproj",
+      "projectUniqueName": "C:\\Users\\pc\\source\\repos\\NStore\\NStore\\NStore.csproj",
       "projectName": "NStore",
-      "projectPath": "C:\\Users\\WestKite\\source\\repos\\NStore\\NStore\\NStore.csproj",
-      "packagesPath": "C:\\Users\\WestKite\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\WestKite\\source\\repos\\NStore\\NStore\\obj\\",
+      "projectPath": "C:\\Users\\pc\\source\\repos\\NStore\\NStore\\NStore.csproj",
+      "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pc\\source\\repos\\NStore\\NStore\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\WestKite\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1564,7 +1569,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
