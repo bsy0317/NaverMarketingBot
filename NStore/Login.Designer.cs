@@ -44,48 +44,41 @@ namespace NStore
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(51, 47);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(36, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 25);
+            this.label1.Size = new System.Drawing.Size(30, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID : ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(43, 100);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(30, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 25);
+            this.label2.Size = new System.Drawing.Size(36, 15);
             this.label2.TabIndex = 1;
             this.label2.Text = "PW : ";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(103, 42);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Location = new System.Drawing.Point(72, 25);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(205, 31);
+            this.textBox1.Size = new System.Drawing.Size(145, 23);
             this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "bsy0317";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(103, 95);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox2.Location = new System.Drawing.Point(72, 57);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '●';
-            this.textBox2.Size = new System.Drawing.Size(205, 31);
+            this.textBox2.Size = new System.Drawing.Size(145, 23);
             this.textBox2.TabIndex = 3;
-            this.textBox2.Text = "qo1360714@";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(319, 42);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(223, 25);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 92);
+            this.button1.Size = new System.Drawing.Size(85, 55);
             this.button1.TabIndex = 4;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
@@ -96,11 +89,10 @@ namespace NStore
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 185);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 108);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 20, 0);
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip1.Size = new System.Drawing.Size(500, 32);
+            this.statusStrip1.Size = new System.Drawing.Size(350, 22);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
@@ -108,7 +100,7 @@ namespace NStore
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 25);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
             this.toolStripStatusLabel1.Text = "READY";
             // 
             // timer1
@@ -119,9 +111,9 @@ namespace NStore
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 217);
+            this.ClientSize = new System.Drawing.Size(350, 130);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
@@ -129,7 +121,6 @@ namespace NStore
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);

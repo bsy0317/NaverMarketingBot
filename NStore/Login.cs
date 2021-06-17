@@ -1,6 +1,7 @@
 ﻿using DeviceId;
 using DeviceId.Encoders;
 using DeviceId.Formatters;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +41,8 @@ namespace NStore
                 .ToString().ToUpper();
             toolStripStatusLabel1.Text = InsertCharAtDividedPosition(deviceId, 6, "-");
             uniqueID = InsertCharAtDividedPosition(deviceId, 6, "-");
+            textBox1.Text = ReadRegistry("ID");
+            textBox2.Text = ReadRegistry("PW");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -88,6 +91,7 @@ namespace NStore
             {
                 string sub = DateTime.Parse(Data[3]).Subtract(DateTime.Parse(Data[4])).Days.ToString();
                 MessageBox.Show("로그인 성공\n사용기한 " + sub + "일 남음.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                WriteRegistry(ID, PW);
                 this.Hide();
                 Main frm1 = new Main(userData);
                 frm1.ShowDialog();
@@ -141,6 +145,23 @@ namespace NStore
                 str = str.Insert(i * count + (i - 1), character);
             }
             return str;
+        }
+        public void WriteRegistry(string ID, string PW)
+        {
+            RegistryKey regKey = Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("NStore");
+            regKey.SetValue("ID", ID, RegistryValueKind.String);
+            regKey.SetValue("PW", PW, RegistryValueKind.String);
+        }
+        public string ReadRegistry(string regVal)
+        {
+            RegistryKey reg = Registry.LocalMachine;
+            reg = reg.OpenSubKey("SOFTWARE", true).OpenSubKey("NStore",true);
+            if (reg == null) return "";
+            if (null != reg.GetValue(regVal))
+            {
+                return Convert.ToString(reg.GetValue(regVal));
+            }
+            else return "";
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
