@@ -59,3 +59,5 @@ C:\Users\WestKite\source\repos\NStore\NStore\obj\Debug\net5.0-windows\ref\NStore
 C:\Users\WestKite\source\repos\NStore\NStore\obj\Debug\net5.0-windows\NStore.pdb
 C:\Users\WestKite\source\repos\NStore\NStore\obj\Debug\net5.0-windows\NStore.genruntimeconfig.cache
 C:\Users\pc\source\repos\NStore\NStore\obj\Debug\net5.0-windows\NStore.Search.resources
+C:\Users\pc\source\repos\NStore\NStore\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+C:\Users\pc\source\repos\NStore\NStore\bin\Debug\net5.0-windows\WebDriver.dll

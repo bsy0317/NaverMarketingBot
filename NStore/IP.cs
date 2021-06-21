@@ -52,7 +52,7 @@ namespace NStore
             else
             {
                 //ADB 바이너리가 있는경우에만 어댑터 비활성화
-                initialzedAdapter(false);
+                //initialzedAdapter(false);
             }
         }
         private void initialzedAdapter(bool Enable=false)
